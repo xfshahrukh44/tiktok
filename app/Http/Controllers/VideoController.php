@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\Validator;
 
 class VideoController extends Controller
 {
-
     public function index()
     {
         $videos = Video::paginate(10);

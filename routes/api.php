@@ -45,6 +45,14 @@ Route::group(['namespace' => 'App\Http\Controllers', 'prefix' => ''], function (
         Route::put('/video/{id}', 'VideoController@update');
         Route::delete('/video/{id}', 'VideoController@destroy');
 
+//        category crud
+        Route::get('/category/', 'CategoryController@index');
+        Route::get('/category/category_videos/{id}', 'CategoryController@category_videos');
+        Route::post('/category/', 'CategoryController@store');
+        Route::get('/category/{id}', 'CategoryController@show');
+        Route::put('/category/{id}', 'CategoryController@update');
+        Route::delete('/category/{id}', 'CategoryController@destroy');
+
 
     });
 });
