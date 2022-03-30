@@ -37,6 +37,14 @@ Route::group(['namespace' => 'App\Http\Controllers', 'prefix' => ''], function (
         Route::put('/user/{id}', 'UserController@update');
         Route::delete('/user/{id}', 'UserController@destroy');
 
+//        video crud
+        Route::get('/video/', 'VideoController@index');
+        Route::get('/video/my_videos', 'VideoController@my_videos');
+        Route::post('/video/', 'VideoController@store');
+        Route::get('/video/{id}', 'VideoController@show');
+        Route::put('/video/{id}', 'VideoController@update');
+        Route::delete('/video/{id}', 'VideoController@destroy');
+
 
     });
 });
