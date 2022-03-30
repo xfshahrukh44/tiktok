@@ -87,4 +87,99 @@ class UserController extends Controller
 
         return response()->json(array_merge($user, $res));
     }
+
+    public function index()
+    {
+        $users = User::paginate(10);
+
+        $response = [
+            'pagination' => [
+                'total' => $users->total(),
+                'per_page' => $users->perPage(),
+                'current_page' => $users->currentPage(),
+                'last_page' => $users->lastPage(),
+                'from' => $users->firstItem(),
+                'to' => $users->lastItem()
+            ],
+            'data' => $users
+        ];
+
+        return response()->json($response);
+    }
+
+    public function store(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|email|unique:users',
+            'first_name' => 'required|string|max:20',
+            'last_name' => 'required|string|max:20',
+            'password' => 'required|min:4',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->messages());
+        }
+
+        $req = $request->all();
+
+        if($request->has('password')){
+            $req['password'] = Hash::make($request->password);
+        }
+
+        $user = User::create($req);
+//        return $user;
+        return response()->json($user);
+    }
+
+    public function show($id)
+    {
+        if(!$user = User::find($id)) {
+            return response()->json([
+                'success' => false,
+                'message' => 'not found'
+            ]);
+        }
+
+        return response()->json($user);
+    }
+
+    public function update(Request $request, $id)
+    {
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|email|unique:users,email,' . $id,
+            'first_name' => 'required|string|max:20',
+            'last_name' => 'required|string|max:20',
+            'password' => 'sometimes|min:4',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->messages());
+        }
+
+        $req = $request->all();
+
+        if($request->has('password')){
+            $req['password'] = Hash::make($request->password);
+        }
+
+        $user = User::find($id);
+        $user->update($req);
+        return response()->json($user);
+    }
+
+    public function destroy($id)
+    {
+        if($id == auth()->user()->id){
+            return response()->json(['success' => false, 'message' => 'Not allowed']);
+        }
+
+        if(!$user = User::find($id)) {
+            return response()->json([
+                'success' => false,
+                'message' => 'not found'
+            ]);
+        }
+
+        return response()->json($user->delete());
+    }
 }

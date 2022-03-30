@@ -30,12 +30,12 @@ Route::group(['namespace' => 'App\Http\Controllers', 'prefix' => ''], function (
         Route::post('refresh', 'UserController@refresh');
         Route::get('me', 'UserController@me');
 
-////        admin crud
-//        Route::get('/', 'AdminController@index');
-//        Route::post('/', 'AdminController@store');
-//        Route::get('/{id}', 'AdminController@show');
-//        Route::put('/{id}', 'AdminController@update');
-//        Route::delete('/{id}', 'AdminController@destroy');
+//        user crud
+        Route::get('/user/', 'UserController@index');
+        Route::post('/user/', 'UserController@store');
+        Route::get('/user/{id}', 'UserController@show');
+        Route::put('/user/{id}', 'UserController@update');
+        Route::delete('/user/{id}', 'UserController@destroy');
 
 
     });
