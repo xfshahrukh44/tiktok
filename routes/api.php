@@ -24,6 +24,9 @@ Route::group(['namespace' => 'App\Http\Controllers', 'prefix' => ''], function (
     Route::post('login', 'UserController@login');
     Route::post('register', 'UserController@register');
 
+//    public routes
+    Route::get('/feed', 'VideoController@feed');
+
     Route::group(['middleware' => ['user_api']], function ($router) {
 //        auth
         Route::post('logout', 'UserController@logout');

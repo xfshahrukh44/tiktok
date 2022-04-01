@@ -133,4 +133,46 @@ class VideoController extends Controller
 
         return response()->json($video->delete());
     }
+
+    public function feed(Request $request)
+    {
+        $title = $request->has('title') ? $request->title :  null;
+        $category = $request->has('category') ? $request->category :  null;
+        $tag = $request->has('tag') ? $request->tag :  null;
+
+        $videos = Video
+            ::when($title, function($q) use($title) {
+               return $q->where('title', 'LIKE', '%'.$title.'%');
+            })
+            ->when($category, function($q) use($category) {
+                return $q->whereHas('category', function($q) use ($category) {
+                    return $q->where('name', 'LIKE', '%'.$category.'%');
+                });
+            })
+            ->when($tag, function($q) use($tag) {
+                return $q->whereIn('tags', $tag);
+            })
+            ->paginate(10);
+
+        $search_data = [
+            'title' => $title,
+            'category' => $category,
+            'tag' => $tag,
+        ];
+
+        $response = [
+            'pagination' => [
+                'total' => $videos->total(),
+                'per_page' => $videos->perPage(),
+                'current_page' => $videos->currentPage(),
+                'last_page' => $videos->lastPage(),
+                'from' => $videos->firstItem(),
+                'to' => $videos->lastItem()
+            ],
+            'data' => $videos,
+            'search_data' => $search_data,
+        ];
+
+        return response()->json($response);
+    }
 }
