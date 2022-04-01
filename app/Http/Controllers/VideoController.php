@@ -136,29 +136,18 @@ class VideoController extends Controller
 
     public function feed(Request $request)
     {
-        $title = $request->has('title') ? $request->title :  null;
-        $category = $request->has('category') ? $request->category :  null;
-        $tag = $request->has('tag') ? $request->tag :  null;
+        $query = $request->has('query') ? $request->query :  null;
 
         $videos = Video
-            ::when($title, function($q) use($title) {
-               return $q->where('title', 'LIKE', '%'.$title.'%');
-            })
-            ->when($category, function($q) use($category) {
-                return $q->whereHas('category', function($q) use ($category) {
-                    return $q->where('name', 'LIKE', '%'.$category.'%');
-                });
-            })
-            ->when($tag, function($q) use($tag) {
-                return $q->whereIn('tags', $tag);
+            ::when($query, function($q) use($query) {
+               return $q
+                    ->where('title', 'LIKE', '%'.$query.'%')
+                    ->orWhere('tags', 'LIKE', '%'.$query.'%')
+                    ->orWhereHas('category', function($q) use ($query) {
+                        return $q->where('name', 'LIKE', '%'.$query.'%');
+                    });
             })
             ->paginate(10);
-
-        $search_data = [
-            'title' => $title,
-            'category' => $category,
-            'tag' => $tag,
-        ];
 
         $response = [
             'pagination' => [
@@ -170,7 +159,7 @@ class VideoController extends Controller
                 'to' => $videos->lastItem()
             ],
             'data' => $videos,
-            'search_data' => $search_data,
+            'query' => $query,
         ];
 
         return response()->json($response);
