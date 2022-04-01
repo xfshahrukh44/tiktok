@@ -26,6 +26,7 @@ Route::group(['namespace' => 'App\Http\Controllers', 'prefix' => ''], function (
 
 //    public routes
     Route::get('/feed', 'VideoController@feed');
+    Route::get('/category/{id}/videos/', 'VideoController@category_videos');
 
     Route::group(['middleware' => ['user_api']], function ($router) {
 //        auth
@@ -50,7 +51,6 @@ Route::group(['namespace' => 'App\Http\Controllers', 'prefix' => ''], function (
 
 //        category crud
         Route::get('/category/', 'CategoryController@index');
-        Route::get('/category/category_videos/{id}', 'CategoryController@category_videos');
         Route::post('/category/', 'CategoryController@store');
         Route::get('/category/{id}', 'CategoryController@show');
         Route::put('/category/{id}', 'CategoryController@update');

@@ -164,4 +164,42 @@ class VideoController extends Controller
 
         return response()->json($response);
     }
+
+    public function category_videos($id)
+    {
+        $categories = Video::where('category_id', $id)->paginate(10);
+
+        $response = [
+            'pagination' => [
+                'total' => $categories->total(),
+                'per_page' => $categories->perPage(),
+                'current_page' => $categories->currentPage(),
+                'last_page' => $categories->lastPage(),
+                'from' => $categories->firstItem(),
+                'to' => $categories->lastItem()
+            ],
+            'data' => $categories
+        ];
+
+        return response()->json($response);
+    }
+
+    public function videos_by_user(Request $request)
+    {
+        $videos = Video::where('user_id', $request->user_id)->paginate(10);
+
+        $response = [
+            'pagination' => [
+                'total' => $videos->total(),
+                'per_page' => $videos->perPage(),
+                'current_page' => $videos->currentPage(),
+                'last_page' => $videos->lastPage(),
+                'from' => $videos->firstItem(),
+                'to' => $videos->lastItem()
+            ],
+            'data' => $videos
+        ];
+
+        return response()->json($response);
+    }
 }
