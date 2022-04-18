@@ -18,7 +18,7 @@ class CreateVideosTable extends Migration
             $table->string('title');
             $table->integer('user_id');
             $table->integer('category_id');
-            $table->longText('tags')->default('');
+            $table->longText('tags')->nullable();
             $table->string('description')->nullable;
             $table->string('link');
             $table->timestamps();
