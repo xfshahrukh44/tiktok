@@ -68,7 +68,7 @@ class UserController extends Controller
         ];
 
         if (!$token = auth()->attempt($credentials)) {
-            auth()->logout();
+//            dd('here');
             return response()->json(['error' => 'Unauthorized'], 401);
         }
 
