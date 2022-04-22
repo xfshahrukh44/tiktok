@@ -136,7 +136,8 @@ class VideoController extends Controller
 
     public function feed(Request $request)
     {
-        $query = $request->has('query') ? $request->query :  null;
+//        dd($request['query']);
+        $query = $request->has('query') ? $request['query'] :  null;
 
         $videos = Video
             ::when($query, function($q) use($query) {

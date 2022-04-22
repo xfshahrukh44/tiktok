@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\GoogleController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,6 +28,10 @@ Route::group(['namespace' => 'App\Http\Controllers', 'prefix' => ''], function (
 //    public routes
     Route::get('/feed', 'VideoController@feed');
     Route::get('/category/{id}/videos/', 'VideoController@category_videos');
+
+//    login with google
+    Route::get('/login/{provider}', [GoogleController::class,'redirectToProvider']);
+    Route::get('/login/{provider}/callback', [GoogleController::class,'handleProviderCallback']);
 
     Route::group(['middleware' => ['user_api']], function ($router) {
 //        auth

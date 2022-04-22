@@ -30,4 +30,10 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    'google' => [
+        'client_id' => '457414889074-nfbf0tpfgdrjr8vemqbsp8jm0sla3o9a.apps.googleusercontent.com',
+        'client_secret' => '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',
+        'redirect' => 'http://localhost/tiktok/public/api/login/google/callback',
+    ],
+
 ];
