@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Video;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class VideoController extends Controller
@@ -54,7 +55,8 @@ class VideoController extends Controller
             'category_id' => 'required',
             'tags' => 'sometimes',
             'description' => 'required',
-            'link' => 'required',
+            'video' => 'required|mimes:mp4',
+//            'link' => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -62,6 +64,11 @@ class VideoController extends Controller
         }
 
         $req = $request->all();
+
+//        video
+        $link = Storage::disk('s3')->put('videos', $request->video);
+        $link = Storage::disk('s3')->url($link);
+        $req['link'] = $link;
 
         if($request->has('tags')){
             $req['tags'] = json_encode($request->tags);
