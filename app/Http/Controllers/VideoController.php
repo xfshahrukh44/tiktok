@@ -145,6 +145,7 @@ class VideoController extends Controller
     {
 //        dd($request['query']);
         $query = $request->has('query') ? $request['query'] :  null;
+        $category_id = $request->has('category_id') ? $request['category_id'] :  null;
 
         $videos = Video
             ::when($query, function($q) use($query) {
@@ -154,6 +155,9 @@ class VideoController extends Controller
                     ->orWhereHas('category', function($q) use ($query) {
                         return $q->where('name', 'LIKE', '%'.$query.'%');
                     });
+            })
+            ->when($category_id, function ($q) use ($category_id) {
+                return $q->where('category_id', $category_id);
             })
             ->paginate(10);
 
