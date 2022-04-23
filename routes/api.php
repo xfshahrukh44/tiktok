@@ -19,6 +19,22 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::get('/temp', function() {
+//    $credentials = [
+//        "email" => 'a@b.com'
+//    ];
+//
+//    $user = \App\Models\User::where('email', 'a@b.com')->first();
+//    auth()->login($user);
+//    $token = JWTAuth::fromUser($user);
+
+//    if (!$token = auth()->attempt($credentials)) {
+////            dd('here');
+//        return response()->json(['error' => 'Unauthorized'], 401);
+//    }
+//    dd($token);
+});
+
 // user routes
 Route::group(['namespace' => 'App\Http\Controllers', 'prefix' => ''], function ($router) {
 //    entry
@@ -26,7 +42,7 @@ Route::group(['namespace' => 'App\Http\Controllers', 'prefix' => ''], function (
     Route::post('register', 'UserController@register');
 
 //    public routes
-    Route::get('/feed', 'VideoController@feed');
+    Route::post('/feed', 'VideoController@feed');
     Route::get('/category/{id}/videos/', 'VideoController@category_videos');
 
 //    login with google

@@ -14,7 +14,6 @@ class UserController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'first_name' => 'required',
-            'last_name' => 'required',
             'email' => 'required|email|unique:users',
             'password' => 'required'
         ]);
@@ -23,9 +22,30 @@ class UserController extends Controller
             return response()->json($validator->messages());
         }
 
+//        social login check
+        if($request->has('is_social') && $request->is_social == True) {
+            $social_user_check = User::where('email', $request->email)->get();
+//            if user exists
+            if(count($social_user_check) > 0){
+                $user = $social_user_check[0];
+                if($user['social_login_type'] == $request->social_login_type){
+                    auth()->login($user);
+                    $token = JWTAuth::fromUser($user);
+                    return $this->respondWithToken($token);
+                } else {
+                    return response()->json([
+                        'success' => false,
+                        'message' => 'Email has already been taken or associated with another account.'
+                    ]);
+                }
+            }
+        }
+
         $user = User::create([
             'first_name' => $request['first_name'],
             'last_name' => $request['last_name'],
+            'is_social' => $request['is_social'],
+            'social_login_type' => $request['social_login_type'],
             'email' => $request['email'],
             'dob' => $request['dob'],
             'userName' => $request['userName'],
