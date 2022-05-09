@@ -15,6 +15,7 @@ class UserController extends Controller
         $validator = Validator::make($request->all(), [
             'first_name' => 'required',
             'email' => 'required|email|unique:users',
+            'handle' => 'sometimes|unique:users',
             'password' => 'required'
         ]);
 
@@ -111,9 +112,15 @@ class UserController extends Controller
         return response()->json(array_merge($user, $res));
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $users = User::paginate(10);
+//        dd();
+        $handle = $request->has('query') ? $request->get('query') : NULL;
+
+        $users = User::when($handle, function($q) use ($handle) {
+            return $q->where('handle', 'LIKE', '%'.$handle.'%');
+        })
+        ->paginate(10);
 
         $response = [
             'pagination' => [
@@ -136,6 +143,7 @@ class UserController extends Controller
             'email' => 'required|email|unique:users',
             'first_name' => 'required|string|max:20',
             'last_name' => 'required|string|max:20',
+            'handle' => 'sometimes|unique:users',
             'password' => 'required|min:4',
         ]);
 
@@ -170,6 +178,7 @@ class UserController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'email' => 'required|email|unique:users,email,' . $id,
+            'handle' => 'sometimes|unique:users,' . $id,
             'first_name' => 'required|string|max:20',
             'last_name' => 'required|string|max:20',
             'password' => 'sometimes|min:4',
