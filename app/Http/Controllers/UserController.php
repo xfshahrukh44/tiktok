@@ -114,7 +114,6 @@ class UserController extends Controller
 
     public function index(Request $request)
     {
-//        dd();
         $handle = $request->has('query') ? $request->get('query') : NULL;
 
         $users = User::when($handle, function($q) use ($handle) {

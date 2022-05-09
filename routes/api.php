@@ -44,6 +44,7 @@ Route::group(['namespace' => 'App\Http\Controllers', 'prefix' => ''], function (
 //    public routes
     Route::post('/feed', 'VideoController@feed');
     Route::get('/category/{id}/videos/', 'VideoController@category_videos');
+    Route::get('/user/{id}/videos/', 'VideoController@videos_by_user');
 
 //    login with google
     Route::get('/login/{provider}', [GoogleController::class,'redirectToProvider']);
