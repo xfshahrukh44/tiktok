@@ -16,6 +16,7 @@ class Video extends Model
         'tags',
         'description',
         'link',
+        'thumbnail',
     ];
 
     public function user()
