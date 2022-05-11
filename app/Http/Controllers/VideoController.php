@@ -56,6 +56,7 @@ class VideoController extends Controller
             'tags' => 'sometimes',
             'description' => 'required',
             'video' => 'required|mimes:mp4',
+            'thumbnail' => 'sometimes|mimes:jpg,jpeg,png',
 //            'link' => 'required',
         ]);
 
@@ -69,6 +70,13 @@ class VideoController extends Controller
         $link = Storage::disk('s3')->put('videos', $request->video);
         $link = Storage::disk('s3')->url($link);
         $req['link'] = $link;
+
+//        thumbnail
+        if($request->has('thumbnail')){
+            $thumbnail = Storage::disk('s3')->put('videos', $request->thumbnail);
+            $thumbnail = Storage::disk('s3')->url($thumbnail);
+            $req['thumbnail'] = $thumbnail;
+        }
 
         if($request->has('tags')){
             $req['tags'] = json_encode($request->tags);
@@ -100,6 +108,7 @@ class VideoController extends Controller
             'tags' => 'sometimes',
             'description' => 'sometimes',
             'link' => 'sometimes',
+            'thumbnail' => 'sometimes|mimes:jpg,jpeg,png',
         ]);
 
         if ($validator->fails()) {
@@ -107,6 +116,13 @@ class VideoController extends Controller
         }
 
         $req = $request->all();
+
+//        thumbnail
+        if($request->has('thumbnail')){
+            $thumbnail = Storage::disk('s3')->put('videos', $request->thumbnail);
+            $thumbnail = Storage::disk('s3')->url($thumbnail);
+            $req['thumbnail'] = $thumbnail;
+        }
 
         if($request->has('tags')){
             $req['tags'] = json_encode($request->tags);
