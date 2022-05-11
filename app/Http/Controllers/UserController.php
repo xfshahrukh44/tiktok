@@ -48,6 +48,7 @@ class UserController extends Controller
             'is_social' => $request['is_social'],
             'social_login_type' => $request['social_login_type'],
             'email' => $request['email'],
+            'handle' => $request['handle'],
             'dob' => $request['dob'],
             'userName' => $request['userName'],
             'password' => Hash::make($request['password']),
