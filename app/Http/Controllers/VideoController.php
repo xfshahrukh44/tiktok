@@ -216,9 +216,9 @@ class VideoController extends Controller
         return response()->json($response);
     }
 
-    public function videos_by_user(Request $request)
+    public function videos_by_user(Request $request, $id)
     {
-        $videos = Video::where('user_id', $request->user_id)->paginate(10);
+        $videos = Video::where('user_id', $id)->paginate(10);
 
         $response = [
             'pagination' => [
