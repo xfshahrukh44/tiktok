@@ -56,7 +56,7 @@ class VideoController extends Controller
             'tags' => 'sometimes',
             'description' => 'required',
             'video' => 'required|mimes:mp4',
-            'thumbnail' => 'sometimes|mimes:jpg,jpeg,png',
+            'thumbnail' => 'required|mimes:jpg,jpeg,png',
 //            'link' => 'required',
         ]);
 

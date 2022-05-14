@@ -6,6 +6,7 @@ use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
@@ -15,7 +16,7 @@ class UserController extends Controller
         $validator = Validator::make($request->all(), [
             'first_name' => 'required',
             'email' => 'required|email|unique:users',
-            'handle' => 'nullable|unique:users',
+            'handle' => 'required|unique:users',
             'password' => 'required'
         ]);
 
@@ -192,6 +193,13 @@ class UserController extends Controller
 
         if($request->has('password')){
             $req['password'] = Hash::make($request->password);
+        }
+
+//        thumbnail
+        if($request->has('profile')){
+            $profile = Storage::disk('s3')->put('videos', $request->profile);
+            $profile = Storage::disk('s3')->url($profile);
+            $req['profile'] = $profile;
         }
 
         if(!$user = User::find($id)) {

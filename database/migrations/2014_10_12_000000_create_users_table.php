@@ -23,6 +23,7 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->string('handle')->unique()->nullable();
             $table->boolean('is_social')->nullable();
+            $table->string('profile')->nullable();
             $table->string('social_login_type')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password')->nullable();
