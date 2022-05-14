@@ -194,7 +194,13 @@ class UserController extends Controller
             $req['password'] = Hash::make($request->password);
         }
 
-        $user = User::find($id);
+        if(!$user = User::find($id)) {
+            return response()->json([
+                'success' => false,
+                'message' => 'not found'
+            ]);
+        }
+
         $user->update($req);
         return response()->json($user);
     }

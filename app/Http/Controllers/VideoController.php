@@ -128,7 +128,11 @@ class VideoController extends Controller
             $req['tags'] = json_encode($request->tags);
         }
 
-        $video = Video::find($id);
+        if (!$video = Video::find($id)) {
+            return response()->json([
+                'error' => 'Not found.'
+            ]);
+        }
         if ($video->user_id != auth()->user()->id) {
             return response()->json([
                 'error' => 'Not allowed'
