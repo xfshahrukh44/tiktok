@@ -12,7 +12,7 @@ class VideoController extends Controller
 {
     public function index()
     {
-        $videos = Video::paginate(10);
+        $videos = Video::with('user')->paginate(10);
 
         $response = [
             'pagination' => [
@@ -90,7 +90,7 @@ class VideoController extends Controller
 
     public function show($id)
     {
-        if(!$video = Video::find($id)) {
+        if(!$video = Video::with('user')->find($id)) {
             return response()->json([
                 'success' => false,
                 'message' => 'not found'
@@ -168,7 +168,8 @@ class VideoController extends Controller
         $category_id = $request->has('category_id') ? $request['category_id'] :  null;
 
         $videos = Video
-            ::when($query, function($q) use($query) {
+            ::with('user')
+            ->when($query, function($q) use($query) {
                return $q
                     ->where('title', 'LIKE', '%'.$query.'%')
                     ->orWhere('tags', 'LIKE', '%'.$query.'%')
@@ -199,7 +200,7 @@ class VideoController extends Controller
 
     public function category_videos($id)
     {
-        $categories = Video::where('category_id', $id)->paginate(10);
+        $categories = Video::with('user')->where('category_id', $id)->paginate(10);
 
         $response = [
             'pagination' => [
