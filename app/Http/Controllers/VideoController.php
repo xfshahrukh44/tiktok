@@ -55,7 +55,7 @@ class VideoController extends Controller
             'category_id' => 'required',
             'tags' => 'sometimes',
             'description' => 'required',
-            'video' => 'required|mimes:mp4',
+            'video' => 'required|mimes:mp4,webm,mpg,mp2,mpeg,mpe,mpv,ogg,m4p,m4v,avi,wmv,mov,qt,flv,swf,avchd',
             'thumbnail' => 'required|mimes:jpg,jpeg,png',
 //            'link' => 'required',
         ]);
