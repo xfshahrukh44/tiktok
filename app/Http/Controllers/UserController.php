@@ -6,6 +6,7 @@ use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
@@ -23,6 +24,11 @@ class UserController extends Controller
         if ($validator->fails()) {
             return response()->json($validator->messages());
         }
+
+//        send mail to newly registered person's email
+        Mail::raw('Hola '.$request->handle.' te has registrado correctamente a Kon. ¡Puedes ver todos los videos subidos por otros usuarios o subir los tuyos!', function($message) use($request) {
+            $message->subject('Kon - Registracion')->to($request->email);
+        });
 
 //        social login check
         if($request->has('is_social') && $request->is_social == True) {
