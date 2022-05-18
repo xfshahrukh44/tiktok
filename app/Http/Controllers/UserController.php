@@ -15,7 +15,7 @@ class UserController extends Controller
     public function register(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'first_name' => 'required',
+            'first_name' => 'sometimes',
             'email' => 'required|email|unique:users',
             'handle' => 'required|unique:users',
             'password' => 'required'
@@ -184,10 +184,10 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
-            'email' => 'required|email|unique:users,email,' . $id,
+            'email' => 'sometimes|email|unique:users,email,' . $id,
             'handle' => 'sometimes|unique:users,' . $id,
-            'first_name' => 'required|string|max:20',
-            'last_name' => 'required|string|max:20',
+            'first_name' => 'sometimes|string|max:20',
+            'last_name' => 'sometimes|string|max:20',
             'password' => 'sometimes|min:4',
         ]);
 
