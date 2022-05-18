@@ -13,8 +13,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::get('/temp', function () {
+    return view('mail.registered');
 });
 
 Route::middleware([

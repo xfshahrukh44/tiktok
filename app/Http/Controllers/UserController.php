@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use App\Mail\UserRegistered;
 
 class UserController extends Controller
 {
@@ -26,9 +27,11 @@ class UserController extends Controller
         }
 
 //        send mail to newly registered person's email
-        Mail::raw('Hola '.$request->handle.' te has registrado correctamente a Kon. ¡Puedes ver todos los videos subidos por otros usuarios o subir los tuyos!', function($message) use($request) {
-            $message->subject('Kon - Registracion')->to($request->email);
-        });
+        $text = 'Hola '.$request->handle.' te has registrado correctamente a Kon. ¡Puedes ver todos los videos subidos por otros usuarios o subir los tuyos!';
+        Mail::to($request->email)->send(new UserRegistered($text));
+//        Mail::raw('Hola '.$request->handle.' te has registrado correctamente a Kon. ¡Puedes ver todos los videos subidos por otros usuarios o subir los tuyos!', function($message) use($request) {
+//            $message->subject('Kon - Registracion')->to($request->email);
+//        });
 
 //        social login check
         if($request->has('is_social') && $request->is_social == True) {
