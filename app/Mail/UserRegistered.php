@@ -30,7 +30,7 @@ class UserRegistered extends Mailable
     public function build()
     {
 //        return $this->view('view.name');
-        return $this->subject('Kon - Registracion')
+        return $this->subject('Registro en KON')
             ->view('mail.registered');
     }
 }
