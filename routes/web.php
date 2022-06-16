@@ -17,6 +17,10 @@ Route::get('/temp', function () {
     return view('mail.registered');
 });
 
+Route::get('/privacy-policy', function () {
+    return view('privacy_policy');
+});
+
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
