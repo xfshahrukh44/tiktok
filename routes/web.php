@@ -21,6 +21,12 @@ Route::get('/privacy-policy', function () {
     return view('privacy_policy');
 });
 
+Route::get('/contact-us', function () {
+    return view('contact_us');
+})->name('contact_us_page');
+
+Route::post('/contact_us', 'App\Http\Controllers\PublicController@contact_us')->name('contact_us');
+
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
