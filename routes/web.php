@@ -21,7 +21,7 @@ Route::get('/privacy-policy', function () {
     return view('privacy_policy');
 });
 
-Route::get('/contact-us', function () {
+Route::get('/support', function () {
     return view('contact_us');
 })->name('contact_us_page');
 
